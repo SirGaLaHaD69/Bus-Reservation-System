@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %}Passenger {{ num }}{% endblock %}
+{% block links_n_scripts %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ passenger_details.media }}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$( function() {
+  $( ".datepicker" ).datepicker();
+} );
+</script>
+{% endblock %}
+{% block body_block %}
+<div style="margin: 80px 100px;">
+  <div class="jumbotron jumbotron-translucent" style="margin: 65px 0px 45px 0px; border-radius: 0rem!important;">
+    <h1 align="center">Passenger Details</h1>
+    <hr>
+    <div align="center" style="color: white;">
+    Please fill the details of the passengers
+    </div>
+  </div>
+  <form method="post" action="{% url 'airline3app:passenger_info' %}">
+    {% csrf_token %}
+    {{ passenger_details.management_form }}
+    <table>
+      {% for pl in passenger_details %}
+      <div class="jumbotron jumbotron-translucent" style="margin: 10px 0px; box-shadow: none;border-radius: 0rem!important;">
+        <h3 align="center">Passenger {{ forloop.counter }}</h3>
+        <br>
+        {% for message in pl.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ message }}
+          </div>
+        {% endfor %}
+        {{ form.source.errors }}
+        <div class="row">
+          <div class="col form-group">
+            {{ pl.passenger_firstname }}
+            {% for message in pl.passenger_firstname.errors %}
+              <div class="alert alert-danger">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+          <div class="col form-group">
+            {{ pl.passenger_lastname }}
+            {% for message in pl.passenger_lastname.errors %}
+              <div class="alert alert-danger">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col form-group">
+            {{ pl.passenger_dob }}
+            {% for message in pl.passenger_dob.errors %}
+              <div class="alert alert-danger">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+          <div class="col form-group">
+            {{ pl.SSN }}
+            {% for message in pl.SSN.errors %}
+              <div class="alert alert-danger">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="row form-group textbox-translucent" style="width: 450px; padding: 10px; margin: auto">
+          {% for choice in pl.passenger_gender %}
+            <div class="col" style="text-align: center">{{ choice.tag }} <span style="color: white">{{ choice.choice_label }}</span></div>
+          {% endfor %}
+          {% for message in pl.passenger_gender.errors %}
+            <div class="alert alert-danger">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </table>
+    <div class="text-center">
+      <button class="btn btn-lg btn-primary button-translucent" type="submit">NEXT <i class="fas fa-arrow-circle-right"></i></button>
+    </div>
+  </form>
+</div>
+{% endblock %}

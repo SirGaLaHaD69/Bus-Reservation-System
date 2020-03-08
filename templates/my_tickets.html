@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %}Ticket PNR{% endblock %}
+{% block links_n_scripts %}
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+{% endblock %}
+{% block body_block %}
+<div class = 'jumbotron jumbotron-translucent' style="margin: 65px 0px 45px 0px; border-radius: 0rem!important;">
+  <div class="row">
+    <div class="col">
+      <h2>PNR: {{ ticket.PNR }}</h1>
+      <h3>Date: {{ ticket.JDate }}</h1>
+    </div>
+    <div class ="col" align="right">
+      <h1>{{ ticket.fk_flights.route_no.route_src }} -- {{ ticket.fk_flights.departure }}</h1>
+      <h1>{{ ticket.fk_flights.route_no.route_dest }} -- {{ ticket.fk_flights.arrival }}</h1>
+    </div>
+  </div>
+  <br>
+  <div>
+    <h2>Boarders:</h2>
+    <hr>
+    <table style="width: 100%" class="textbox-translucent">
+      <tr>
+        <th><h2>Name</h2></th>
+        <th><h2>D.O.B</h2></th>
+        <th><h2>Gender</h2></th>
+      </tr>
+      {% if passenger %}
+        {% for pass in passenger %}
+          <tr>
+            <td><h4>{{ pass.SSN.passenger_firstname }} {{ pass.SSN.passenger_lastname}}</h4></td>
+            <td><h4>{{ pass.SSN.passenger_dob }}</h4></td>
+            <td><h4>{{ pass.SSN.passenger_gender }}</h4></td>
+          </tr>
+        {% endfor %}
+      {% endif %}
+    </table>
+  </div>
+  <br>
+  <div align="right">
+    <h1>Price: <i class="fas fa-rupee-sign"></i> {{ t_price }}/-</h1>
+  </div>
+</div>
+{% endblock %}

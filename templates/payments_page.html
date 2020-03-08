@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %}Payment{% endblock %}
+{% block links_n_scripts %}
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+{% endblock %}
+{% block body_block %}
+<div class="jumbotron jumbotron-translucent" style="margin: 100px 300px; color: white">
+  <h1 align="center">Payment</h1>
+  <hr>
+  <div align="center" style="color: white;">
+  Enter your card information as asked below to proceed further.
+  </div>
+  <br>
+  <form method="post" action="{% url 'payments_page' %}">
+    {% csrf_token %}
+    <div class='form-group required'>
+      <label class='control-label'>Name on Card</label>
+      <input class='form-control textbox-translucent' size='40' type='text'>
+    </div>
+    <div class='form-group required'>
+      <label class='control-label'>Card Number</label>
+      <input class='form-control textbox-translucent' size='40' type='text'>
+    </div>
+    <div class='row' style="margin: auto">
+      <div class='col form-group cvc required'>
+        <label class='control-label'>CVC</label>
+        <input autocomplete='off' class='form-control card-cvc textbox-translucent' placeholder='ex. 311' size='6' type='text'>
+      </div>
+      <div class='col form-group expiration required'>
+        <label class='control-label'>Expiration</label>
+        <input class='form-control card-expiry-month textbox-translucent' placeholder='MM' size='6' type='text'>
+      </div>
+      <div class='col form-group expiration required'>
+        <label class='control-label'> </label>
+        <input class='form-control card-expiry-year textbox-translucent' placeholder='YYYY' size='7' type='text'>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <button class='btn btn-lg btn-primary button-translucent' type='submit'><i>Pay »</i></button>
+      </div>
+      <div class="col" align="right">
+        <h3>
+        Total:
+        <i class="fas fa-rupee-sign"></i> <span style="font-size: 50px; font-family: 'Montserrat', sans-serif!important">{{ price }}</span>
+        </h3>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

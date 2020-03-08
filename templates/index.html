@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Search Flights{% endblock %}
+{% block index %}{% endblock %}
+{% block links_n_scripts %}
+  {% load bootstrap4 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery='full' %}
+  {{ form.media }}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="{% static 'js/ajax.js' %}"></script>
+  <script>
+  $( function() {
+    $(".datepicker").datepicker();
+  } );
+  </script>
+{% endblock %}
+{% block body_block %}
+<div class="jumbotron jumbotron-translucent" style="margin: 65px 0px 45px 0px; border-radius: 0rem!important;">
+  <form method="post">
+    {% csrf_token %}
+    <h1 align="center">Search</h1>
+    <hr>
+    <div align="center" style="color: white;">
+    Search and pick a Bus to travel.
+    </div>
+    <br>
+    <div class="row">
+      <div class="col form-group">
+        <input list="src" type="text" autocomplete="off" class="form-control textbox-translucent" placeholder="Source" name="source" required title="" id="id_source">
+        <datalist id="src">
+        {% for c in cities %}
+          <option value="{{ c }}">
+        {% endfor %}
+        </datalist>
+      </div>
+      <div class="col form-group">
+        <input list="dest" type="text" name="dest" autocomplete="off" class="form-control textbox-translucent" placeholder="Destination" required title="" id="id_destination">
+        <datalist id="dest">
+        {% for c in cities %}
+          <option value="{{ c }}">
+        {% endfor %}
+        </datalist>
+      </div>
+      <div class="col form-group">
+        <input type="text" name="Date" class="form-control datepicker textbox-translucent" autocomplete="off" placeholder="Date" title="" id="id_Date">
+      </div>
+    </div>
+    <div class="col-md text-center">
+      <button class="btn btn-primary button-translucent" type="submit"><i class="fas fa-search"></i> Search</button>
+    </div>
+  </form>
+</div>
+{% if flights %}
+  {% if request.method == 'POST' %}
+  <h4 style="text-align: center"><b>{{ flights.count }} Buses found.</b></h4>
+  {% else %}
+  <h4 style="text-align: center"><b>{{ flights.count }} available Buses.</b></h4>
+  {% endif %}
+  {% for flights in flights %}
+    <div class="jumbotron jumbotron-translucent" style="margin: 10px 0px; box-shadow: none;border-radius: 0rem!important;">
+      <div class="row">
+        <div class="col">
+          <h1><i class="fas fa-bus fa-lg"></i> {{ flights.flight_code_id }}</h1>
+          <h3>{{ flights.route_no.route_src }} <i class="fas fa-arrow-right fa-sm"></i> {{ flights.route_no.route_dest }}</h3>
+          <h4>{{ flights.departure }} -- {{ flights.arrival }}</h4>
+          <div class="accordion" id="accordionExample">
+                  <div class="card" style="opacity:0.4;background:black;">
+                    <div class="card-header" id="headingOne">
+                      <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          <h5><B><I>Show Bus Route</I></B></h5>
+                        </button>
+                      </h2>
+                    </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                          <h6 style="font-weight:bold;color:white">{{flights.bus_route}}</h6>
+                        </div>
+            </div>
+          </div>
+        </div>
+        <div class="col" style="text-align: right">
+          <h1 style="font-size: 60px;"><i class="fas fa-rupee-sign fa-sm"></i> {{ flights.price }}/-</h1>
+          <h6 style="font-size: 30px;">Tickets available: {{ flights.seats_available }}</h6>
+
+            {% if request.method == 'POST' %}
+            <a href="{% url 'plane_detail_book' pk=flights.flight_code_id %}">
+              <button class = "btn btn-primary button-translucent" type="submit">Book <i class="fas fa-arrow-circle-right"></i></button>
+            </a>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <h1 style="color: #efefef;">NO PLANES</h1>
+{% endif %}
+{% endblock %}

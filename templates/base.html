@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} | NITR Travels</title>
+    <link rel="icon" href="{% static 'images/nitr.jpg' %}" type="image/ico">
+    <link rel="stylesheet" href={% static 'css/tweaks.css' %}>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    {% block links_n_scripts %}
+    {% endblock %}
+  </head>
+  <body style="background-image: url({% static 'images/bus.jpg' %}); background-size: cover; background-attachment: fixed;">
+    {% block home %}
+    <nav class="navbar navbar-expand-lg navbar-dark nav-dark-translucent fixed-top">
+      <a class="navbar-brand navbar-left" href="{% url 'about' %}"><img class ='img-responsive' src={% static 'images/icon.png' %} style="margin-bottom: 5px;"> NITR Travels</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          {% if not user.is_authenticated %}
+            {% block login %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'airline3app:user_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </li>
+            {% endblock %}
+            {% block register %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'airline3app:register' %}">Register</a>
+            </li>
+            {% endblock %}
+          {% else %}
+          <li class="nav-item active">
+            <a class="nav-link">{{ user.first_name }} {{ user.last_name }}</a>
+          </li>
+            {% block ticket_list %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'ticket_list' %}"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+            </li>
+            {% endblock %}
+            {% block index %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}"><i class="fas fa-bus"></i> Search Buses</a>
+            </li>
+            {% endblock %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_logout' %}">Logout</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    {% endblock %}
+    <br>
+    <div class="container">
+      {% block body_block %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %}SUCCESS{% endblock %}
+{% block body_block %}
+<div class = 'jumbotron jumbotron-translucent' style="margin: 100px 50px;" align="center">
+  <h1 style="font-size: 100px">Congratulations</h1>
+  <br>
+  <div>
+    <a href="{% url 'my_tickets' pk=ticket.PNR %}"><button class = "btn btn-lg btn-primary button-translucent" type="submit">Show my ticket info</button></a>
+  </div>
+</div>
+{% endblock %}

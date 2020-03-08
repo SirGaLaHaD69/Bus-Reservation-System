@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}CANCEL{% endblock %}
+{% block body_block%}
+  <div class="jumbotron jumbotron-translucent" style="margin: 65px 0px 45px 0px; border-radius: 0rem!important;">
+    <form method="post">
+    {% csrf_token %}
+    <h1>Are you sure you want to cancel this ticket<br> PNR: {{object}}?  </h1>
+      <h3><p></p>  <p>You still will be charged 20% of the Ticket-Price.</p> <p>INR {{ticket.fk_flights.refund}}  will be refunded to your Bank Account in 3-4 Working Days.</p>
+      </h3>
+    <input type="submit" class='btn btn-danger' value="Confirm">
+</form>
+  </div>
+
+{%endblock%}

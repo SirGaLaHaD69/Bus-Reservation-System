@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Tickets{% endblock %}
+{% block ticket_list %}{% endblock %}
+{% block body_block %}
+<div class="jumbotron jumbotron-translucent" style="margin: 65px 0px 45px 0px; border-radius: 0rem!important;">
+  <h1 align="center">Tickets Booked</h1>
+  <hr>
+</div>
+{% if ticket %}
+  {% for ticket in ticket %}
+    <div class="jumbotron jumbotron-translucent" style="margin: 10px 0px; box-shadow: none;border-radius: 0rem!important;">
+      <div class="row">
+        <div class="col">
+          <h3>PNR: {{ ticket.PNR }}<h3>
+          <h4>{{ ticket.fk_flights.route_no.route_src }} <i class="fas fa-arrow-right fa-sm"></i> {{ ticket.fk_flights.route_no.route_dest }}</h4>
+          <h4>{{ ticket.JDate }}</h4>
+        </div>
+        <div class="col" align="right">
+          <a href="{% url 'my_tickets' pk=ticket.PNR %}"><button class = "btn btn-lg btn-primary button-translucent"type="submit">SHOW</button></a>
+          <a class="btn btn-lg btn-danger button-translucent" href="{% url 'ticket_remove' pk=ticket.pk %}"><span class="fa fa-remove"></span>CANCEL</a>
+
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <h1 style="color: #efefef;">NO TICKETS</h1>
+{% endif %}
+{% endblock %}

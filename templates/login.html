@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+{% block login %}{% endblock %}
+{% block body_block %}
+<div class="row">
+  <div class="col-sm" style="margin: 0px auto;">
+    <img src="{% static 'images/nitr.jpg' %}" width=450px style="display: block;margin: auto;margin-top: 85px;opacity: 0.5;">
+  </div>
+  <div class="col-sm">
+    <div class="form-group jumbotron jumbotron-translucent" style="margin: 100px 20px 100px 0px;">
+      <form action="{% url 'airline3app:user_login' %}" method="post">
+        {% csrf_token %}
+        {% for message in messages %}
+          <div class="alert alert-danger">
+            {{ message }}
+          </div>
+        {% endfor %}
+        <h1 align="center">Login</h1>
+        <hr>
+        <div align="center" style="color: white;">
+        Welcome back! Login to book tickets for awesome travels.
+        </div>
+        <br>
+        <div>
+          <input type="text" name="username" placeholder="Username" class="form-control textbox-translucent">
+        </div>
+        <br>
+        <div>
+          <input type="password" name="password" placeholder="Password" class="form-control textbox-translucent">
+        </div>
+        <br>
+        <div class="col-md text-center">
+          <button class="btn btn-lg btn-primary button-translucent" type="submit">CONTINUE <i class="fas fa-arrow-circle-right"></i></button>
+        </div>
+      </form>
+      <br>
+      <div style="color: white;">
+      <small>Not a member yet? Click <a href="{% url 'airline3app:register' %}">here</a> to register.</small>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

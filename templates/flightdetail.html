@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %}Book Bus{% endblock %}
+{% block links_n_scripts %}
+  {% load bootstrap4 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery='full' %}
+  {{ form.media }}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( ".datepicker" ).datepicker();
+  } );
+  </script>
+{% endblock %}
+{% block body_block %}
+<div class = "jumbotron jumbotron-translucent text-center" style="margin: 100px 80px">
+  <h1>You have selected the Bus: </h1>
+  <br>
+  <h1 style="font-size: 100px; font-family: 'Montserrat', sans-serif!important;">{{ flight }}</h1>
+  <h1 style="font-size: 100px; font-family: 'Montserrat', sans-serif!important;">{{seats}}</h1>
+
+  <br>
+  <form action="{% url 'plane_detail_book' pk=flight %}"method="post">
+    {% csrf_token %}
+    <div class="col form-group">
+      <label style="font-size:20px;color:white; font-weight:bold " for="number_of_passengers">Enter Number of Passengers</label>
+      <input type="text" name="number_of_passengers" class="form-control textbox-translucent" style="width: 300px; margin: auto" autocomplete="off" required placeholder="Eg : 2">
+    </div>
+    <button class = "btn btn-primary btn-lg button-translucent" type="submit">Proceed <i class="fas fa-arrow-circle-right"></i></button>
+  </form>
+</div>
+{% endblock %}

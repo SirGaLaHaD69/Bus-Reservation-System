@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %}Flights{% endblock %}
+{% block not_plane_list %}{% endblock %}
+{% block body_block %}
+{% if flights %}
+  {% for flights in flights %}
+    <div class="container jumbotron">
+      <h2><i class="fas fa-plane fa-lg"></i> {{ flights.flight_no }}</h2>
+      <h3>{{ src }} <i class="fas fa-arrow-right fa-sm"></i> {{ dest }}</h3>
+      <h3>{{ flights.departure }} -- {{ flights.arrival }}</h3>
+      <h2>Rs. {{ flights.price }}</h2>
+      <a href="{% url 'plane_detail_book' pk=flights.pk %}">
+      <button class = "btn btn-primary"type="submit">Book</button>
+      </a>
+    </div>
+  {% endfor %}
+{% else %}
+  <h1 style="color: #efefef;">NO PLANES</h1>
+{% endif %}
+{% endblock %}
